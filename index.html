@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#05060f">
-<title>SPLITTERWACHT V4 — Beschütze den Glutkern</title>
+<title>SPLITTERWACHT V5 — Beschütze den Glutkern</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
   color:var(--gold);letter-spacing:.1em;text-shadow:0 0 34px rgba(255,200,87,.5)}
 .a-main.red{color:#ff5470;text-shadow:0 0 34px rgba(255,60,90,.6)}
 .a-main.cy{color:var(--cyan);text-shadow:0 0 34px rgba(94,230,255,.6)}
-.a-sub{font-size:clamp(12px,1.8vw,15px);letter-spacing:.32em;color:var(--dim);margin-top:10px;text-transform:uppercase}
+.a-sub{font-size:clamp(12px,1.8vw,15px);letter-spacing:.3em;color:var(--dim);margin-top:10px;text-transform:uppercase}
 @keyframes ann{0%{opacity:0;transform:scale(.9)}12%{opacity:1;transform:none}70%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
 
 /* ---------- HUD ---------- */
@@ -75,6 +75,16 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
   font:700 11px 'Space Grotesk';letter-spacing:.2em;color:var(--dim);background:rgba(10,12,26,.6);
   border:1px solid rgba(160,180,255,.25);padding:11px 14px;min-height:44px}
 #muteBtn:hover{color:var(--text);border-color:rgba(160,180,255,.6)}
+/* Mobiler Impuls-Button */
+#pulseBtn{display:none;position:absolute;right:20px;bottom:calc(108px + var(--safe-b));
+  width:88px;height:88px;border-radius:50%;pointer-events:auto;cursor:pointer;touch-action:none;
+  border:2px solid rgba(94,230,255,.55);background-color:rgba(16,26,44,.72);
+  align-items:center;justify-content:center;
+  font:700 13px 'Space Grotesk';letter-spacing:.14em;color:#dfe6ff;
+  text-shadow:0 0 8px rgba(94,230,255,.8)}
+#pulseBtn span{pointer-events:none}
+#pulseBtn.ready{border-color:#b9f7ff;color:#fff;box-shadow:0 0 28px rgba(94,230,255,.55);animation:epulse .7s infinite alternate}
+#pulseBtn:active{transform:scale(.93)}
 
 /* ---------- Overlays ---------- */
 .overlay{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
@@ -119,7 +129,7 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
 .btn:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
 .menu-best{margin-top:20px;font-size:12px;letter-spacing:.3em;color:var(--dim)}
 .menu-best b{color:var(--gold)}
-.touch-hint{display:none;margin-top:14px;font-size:13px;letter-spacing:.18em;color:var(--cyan)}
+.touch-hint{display:none;margin-top:14px;font-size:13px;letter-spacing:.16em;color:var(--cyan);line-height:1.6}
 .frame{position:fixed;width:26px;height:26px;z-index:11;pointer-events:none;border:0 solid rgba(255,200,87,.55)}
 .f-tl{top:14px;left:14px;border-top-width:2px;border-left-width:2px}
 .f-tr{top:14px;right:14px;border-top-width:2px;border-right-width:2px}
@@ -135,45 +145,48 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
 .hint{margin-top:16px;font-size:12px;letter-spacing:.26em;color:var(--dim)}
 .pause-title{font-family:'Unbounded';font-weight:900;font-size:clamp(30px,6vw,54px);letter-spacing:.2em;color:var(--cyan)}
 
-/* ---------- MOBILE: alles größer ---------- */
+/* ---------- MOBILE: XL-Größen + Layout ---------- */
 @media (max-width:760px){
   body{font-size:17px}
-  .label{font-size:13px}
-  #score{font-size:clamp(34px,9.5vw,48px)}
-  .chip{font-size:15px;padding:7px 14px}
-  #wave{font-size:14px;letter-spacing:.24em}
-  .pip{width:16px;height:16px;margin-left:9px}
-  .bestline{font-size:14px}
-  .e-label{font-size:13px}
-  .key{font-size:12px;padding:3px 8px}
-  .bar{height:17px}
-  #energy{width:min(520px,88vw)}
-  #boons{bottom:calc(96px + var(--safe-b))}
-  .boon{font-size:14px;padding:7px 13px}
-  #muteBtn{font-size:14px;padding:14px 17px;min-height:50px}
+  .label{font-size:14px}
+  #score{font-size:clamp(38px,11vw,56px)}
+  .chip{font-size:16px;padding:8px 16px}
+  #wave{font-size:16px;letter-spacing:.26em}
+  .h-mid{top:calc(86px + env(safe-area-inset-top,0px))}
+  .pip{width:18px;height:18px;margin-left:9px}
+  .bestline{font-size:15px}
+  .e-label{font-size:15px}
+  .key{font-size:13px;padding:3px 8px}
+  .bar{height:20px}
+  #energy{width:min(520px,86vw)}
+  #boons{bottom:calc(128px + var(--safe-b));max-width:70vw}
+  .boon{font-size:16px;padding:8px 14px}
+  #muteBtn{font-size:15px;padding:15px 18px;min-height:50px}
+  #pulseBtn{width:92px;height:92px;font-size:14px}
   .kicker{font-size:13px}
   .vchip{font-size:12px;padding:8px 13px}
-  .title{font-size:clamp(44px,13.5vw,84px)}
-  .tag{font-size:17px}
-  .legend{font-size:14px;gap:8px}
-  .lg{padding:10px 13px}
+  .title{font-size:clamp(46px,14.5vw,88px)}
+  .tag{font-size:18px}
+  .legend{font-size:16px;gap:8px}
+  .lg{padding:11px 14px}
   .dot{width:13px;height:13px}
-  .hintline{font-size:14px}
-  .controls{font-size:14px;gap:12px}
-  .keycap{font-size:13px;padding:9px 13px}
-  .btn{font-size:20px;padding:20px 48px;min-height:62px}
+  .hintline{font-size:15px}
+  .controls{font-size:15px;gap:12px}
+  .keycap{font-size:14px;padding:9px 13px}
+  .btn{font-size:21px;padding:22px 52px;min-height:68px}
   .menu-best{font-size:14px}
   .touch-hint{font-size:15px}
-  .stat{min-width:96px}
-  .stat b{font-size:20px}
-  .a-main{font-size:clamp(34px,10vw,62px)}
-  .a-sub{font-size:13px}
-  .over-title{font-size:clamp(30px,8vw,52px)}
+  .stat{min-width:100px}
+  .stat b{font-size:22px}
+  .a-main{font-size:clamp(36px,10.5vw,64px)}
+  .a-sub{font-size:15px}
+  .over-title{font-size:clamp(32px,8.5vw,56px)}
   .hint{font-size:13px}
   .pause-title{font-size:clamp(32px,9vw,54px)}
 }
 @media (pointer:coarse){
   .touch-hint{display:block}
+  #pulseBtn{display:flex}
 }
 @media (max-height:640px){
   .panel{padding:18px 22px}
@@ -208,6 +221,7 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
     <div class="bar"><div id="energyFill"></div><div class="bar-mark"></div></div>
   </div>
   <div id="boons"></div>
+  <div id="pulseBtn" title="Impuls auslösen"><span>IMPULS</span></div>
   <button id="muteBtn" title="Ton an/aus (M)">TON AN</button>
 </div>
 
@@ -216,7 +230,7 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
   <div class="frame f-bl"></div><div class="frame f-br"></div>
   <div class="panel">
     <div class="kicker">EIN GESCHICKLICHKEITSSPIEL</div><br>
-    <span class="vchip">V4 — ZEITKRISTALLE · KERN-EVOLUTION · BEAT-SYNC</span>
+    <span class="vchip">V5 — LENKRAD-STEUERUNG · IMPULS-BUTTON · PERFORMANCE-FIX</span>
     <h1 class="title"><span class="t1">SPLITTER</span><span class="t2">WACHT</span></h1>
     <p class="tag">Beschütze den <b class="gold">Glutkern</b>: Dreh deinen Schild den Splittern entgegen,
       aber lass Sterne <b class="cy">durch</b>. Sammle <b class="vio">Zeitkristalle</b> für Bullet-Time
@@ -232,12 +246,13 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
     <div class="hintline">Alle 5 Wellen greift ein <b>BERSTER</b> an — nur IMPULSE verletzen ihn!<br>
       Alle 10 Wellen <b class="g">evolviert der Kern</b>: +1 Leben, breiterer Schild, neue Farbe.</div>
     <div class="controls">
-      <div class="ctrl"><span class="keycap">MAUS / FINGER</span> Schild ausrichten</div>
+      <div class="ctrl"><span class="keycap">MAUS</span> Schild ausrichten</div>
       <div class="ctrl"><span class="keycap">KLICK</span><span class="keycap">LEER</span> Impuls</div>
       <div class="ctrl"><span class="keycap">P</span> Pause &nbsp;<span class="keycap">M</span> Ton</div>
     </div>
     <button class="btn" id="startBtn">WACHE ANTRETEN</button>
-    <div class="touch-hint">MOBIL: WISCHEN = ZIELEN · TIPPEN = IMPULS</div>
+    <div class="touch-hint">📱 MOBIL: Finger aufsetzen &amp; drehen wie ein Lenkrad –<br>
+      2. Finger oder IMPULS-Button feuert den Impuls</div>
     <div class="menu-best">BESTLEISTUNG &nbsp;<b id="menuBest">0</b></div>
   </div>
 </div>
@@ -269,21 +284,23 @@ canvas{position:fixed;inset:0;display:block;touch-action:none;cursor:crosshair}
 
 <script>
 'use strict';
-/* ============ SPLITTERWACHT V4 ============
-   Mobile-First-Größen, Zeitkristalle (Bullet-Time), Kern-Evolution,
-   Beat-Sync-Grafik, Planet/Sternschnuppen, Snare+Riser in der BGM. */
+/* ============ SPLITTERWACHT V5 ============
+   Lenkrad-Steuerung (Touch), Impuls-Button, Pixel-Budget gegen Desktop-Lag,
+   Beat-Sync über Audio-Clock, Stereo-Arps, Kompressor, Pentatonik-Blocks. */
 
 const TAU=Math.PI*2;
 const clamp=(v,a,b)=>v<a?a:(v>b?b:v);
 const rand=(a,b)=>a+Math.random()*(b-a);
 const angDiff=(a,b)=>((a-b+Math.PI*3)%TAU)-Math.PI;
 const fmt=n=>n.toLocaleString('de-DE');
+const coarse=matchMedia('(pointer:coarse)').matches;
 
-const cv=document.getElementById('game'),ctx=cv.getContext('2d');
+const cv=document.getElementById('game');
+const ctx=cv.getContext('2d',{alpha:false,powerPreference:'high-performance'});
 const $=id=>document.getElementById(id);
 const elScore=$('score'),elCombo=$('combo'),elWave=$('wave'),elLives=$('lives'),
       elBest=$('best'),elEnergy=$('energy'),elFill=$('energyFill'),elBoons=$('boons'),
-      elAnn=$('announce'),elHud=$('hud');
+      elAnn=$('announce'),elHud=$('hud'),elPulse=$('pulseBtn');
 
 /* ---------- Glow-Sprites ---------- */
 const spriteCache={};
@@ -303,9 +320,12 @@ function makeNeb(x,y,r,rgb){
   g.addColorStop(0,`rgba(${rgb},.055)`);g.addColorStop(1,`rgba(${rgb},0)`);return g;
 }
 function resize(){
-  const dpr=Math.min(window.devicePixelRatio||1,2);
   W=window.innerWidth;H=window.innerHeight;
-  cv.width=W*dpr;cv.height=H*dpr;
+  // Pixel-Budget: verhindert riesige 4K/Retina-Canvas (Desktop-Lag-Fix)
+  let dpr=Math.min(window.devicePixelRatio||1,2);
+  const maxPx=2400000;
+  if(W*H*dpr*dpr>maxPx)dpr=Math.max(1,Math.sqrt(maxPx/(W*H)));
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
   cv.style.width=W+'px';cv.style.height=H+'px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
   CX=W/2;CY=H/2;minDim=Math.min(W,H);
@@ -327,9 +347,8 @@ function resize(){
 }
 window.addEventListener('resize',resize);resize();
 
-/* Mobile: Spielobjekte skalieren NIE unter 1 – lieber größer */
 const SZ=()=>clamp(minDim/700,1.05,1.3);
-const TSS=()=>clamp(minDim/700,1,1.3); // Textgröße
+const TSS=()=>clamp(minDim/700,1,1.3);
 
 /* ---------- Audio ---------- */
 let actx=null,master=null,muted=false,noiseBuf=null,musicGain=null,delayNode=null,musicFilter=null;
@@ -342,7 +361,11 @@ function initAudio(){
   if(actx){if(actx.state==='suspended')actx.resume();return;}
   const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
   actx=new AC();
-  master=actx.createGain();master.gain.value=muted?0:.5;master.connect(actx.destination);
+  master=actx.createGain();master.gain.value=muted?0:.5;
+  const comp=actx.createDynamicsCompressor();
+  comp.threshold.value=-18;comp.knee.value=20;comp.ratio.value=5;
+  comp.attack.value=.004;comp.release.value=.18;
+  master.connect(comp);comp.connect(actx.destination);
   musicFilter=actx.createBiquadFilter();musicFilter.type='lowpass';musicFilter.frequency.value=19000;
   musicFilter.connect(master);
   musicGain=actx.createGain();musicGain.gain.value=.26;musicGain.connect(musicFilter);
@@ -365,8 +388,8 @@ function noise(dur,vol,f,delay=0){
   g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
   src.connect(fl);fl.connect(g);g.connect(master);src.start(t);src.stop(t+dur);
 }
-/* --- BGM-Sequenzer (Am–F–C–G) --- */
-const music={on:false,step:0,nextT:0,tempo:106,intensity:0};
+/* --- BGM --- */
+const music={on:false,step:0,nextT:0,startAt:0,tempo:106,intensity:0};
 const midiF=m=>440*Math.pow(2,(m-69)/12);
 const CHORDS=[[57,60,64],[53,57,60],[60,64,67],[55,59,62]];
 const BASSR=[45,41,48,43];
@@ -387,10 +410,15 @@ function mSnare(t){
   o.type='triangle';o.frequency.value=195;
   g2.gain.setValueAtTime(.12,t);g2.gain.exponentialRampToValueAtTime(.001,t+.07);
   o.connect(g2);g2.connect(musicGain);o.start(t);o.stop(t+.08);}
-function mBass(fr,t){const o=actx.createOscillator(),f=actx.createBiquadFilter(),g=actx.createGain();
+function mBass(fr,t){
+  const o=actx.createOscillator(),f=actx.createBiquadFilter(),g=actx.createGain();
   o.type='sawtooth';o.frequency.value=fr;f.type='lowpass';f.frequency.value=300;
-  g.gain.setValueAtTime(.22,t);g.gain.exponentialRampToValueAtTime(.001,t+.17);
-  o.connect(f);f.connect(g);g.connect(musicGain);o.start(t);o.stop(t+.2);}
+  g.gain.setValueAtTime(.2,t);g.gain.exponentialRampToValueAtTime(.001,t+.17);
+  o.connect(f);f.connect(g);g.connect(musicGain);o.start(t);o.stop(t+.2);
+  const o2=actx.createOscillator(),g2=actx.createGain(); // Sub-Anteil
+  o2.type='sine';o2.frequency.value=fr;
+  g2.gain.setValueAtTime(.13,t);g2.gain.exponentialRampToValueAtTime(.001,t+.16);
+  o2.connect(g2);g2.connect(musicGain);o2.start(t);o2.stop(t+.18);}
 function mPad(chord,t,len){
   for(const m of chord)for(const det of[-6,6]){
     const o=actx.createOscillator(),f=actx.createBiquadFilter(),g=actx.createGain();
@@ -399,10 +427,22 @@ function mPad(chord,t,len){
     g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.03,t+.5);
     g.gain.setValueAtTime(.03,t+len-.4);g.gain.exponentialRampToValueAtTime(.0001,t+len);
     o.connect(f);f.connect(g);g.connect(musicGain);o.start(t);o.stop(t+len+.05);}}
-function mPluck(fr,t){const o=actx.createOscillator(),g=actx.createGain();
+function mPluck(fr,t,pan=0){
+  const o=actx.createOscillator(),g=actx.createGain();
   o.type='triangle';o.frequency.value=fr;
   g.gain.setValueAtTime(.09,t);g.gain.exponentialRampToValueAtTime(.001,t+.13);
-  o.connect(g);g.connect(musicGain);g.connect(delayNode);o.start(t);o.stop(t+.15);}
+  o.connect(g);
+  if(actx.createStereoPanner){
+    const p=actx.createStereoPanner();p.pan.value=pan;
+    g.connect(p);p.connect(musicGain);p.connect(delayNode);
+  }else{g.connect(musicGain);g.connect(delayNode);}
+  o.start(t);o.stop(t+.15);}
+function mCrash(vol=.08){
+  if(!actx||muted)return;const t=actx.currentTime;
+  const src=actx.createBufferSource();src.buffer=getNoiseBuf();
+  const f=actx.createBiquadFilter();f.type='highpass';f.frequency.value=5200;
+  const g=actx.createGain();g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+1.1);
+  src.connect(f);f.connect(g);g.connect(master);src.start(t);src.stop(t+1.15);}
 function playStep(s,t){
   if(muted)return;
   const bar=(s>>4)&3,six=s&15,stepDur=60/music.tempo/4,barDur=stepDur*16;
@@ -413,14 +453,22 @@ function playStep(s,t){
   if(music.intensity>=2)mHat(t+stepDur/2,.02);
   if(six%2===0){let n=BASSR[bar];if(six===6||six===14)n+=12;mBass(midiF(n),t);}
   if(six===0)mPad(CHORDS[bar],t,barDur);
+  const pan=six%2?.4:-.4;
   if(music.intensity>=2){
     const seq8=[0,1,2,1,2,0,1,2],tones=CHORDS[bar];
-    mPluck(midiF(tones[seq8[six%8]]+24),t);
+    mPluck(midiF(tones[seq8[six%8]]+24),t,pan);
   }else if(music.intensity>=1||bar%2===1){
     const tones=CHORDS[bar],seq=[0,1,2,1],oct=(six%8<4)?12:24;
-    mPluck(midiF(tones[seq[six%4]]+oct),t);}
+    mPluck(midiF(tones[seq[six%4]]+oct),t,pan);}
 }
-function startMusic(){if(!actx)return;music.on=true;music.step=0;music.nextT=actx.currentTime+.06;}
+function startMusic(){if(!actx)return;music.on=true;music.step=0;
+  music.nextT=actx.currentTime+.06;music.startAt=music.nextT;}
+function beatKick(){
+  if(!music.on||!actx)return 0;
+  const bd=60/music.tempo,t=actx.currentTime-music.startAt;
+  if(t<0)return 0;
+  return Math.pow(1-((t%bd)/bd),3);
+}
 function riser(dur=1.4){
   if(!actx||muted)return;const t=actx.currentTime;
   const src=actx.createBufferSource();src.buffer=getNoiseBuf();src.loop=true;
@@ -438,27 +486,31 @@ function downer(){
   const g=actx.createGain();g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.0001,t+.75);
   src.connect(f);f.connect(g);g.connect(master);src.start(t);src.stop(t+.8);}
 /* --- SFX --- */
-const sndBlock =c=>{tone(240+Math.min(c,40)*9,170,.09,'square',.15);noise(.05,.07,3200);};
+const PENT=[220,261.63,293.66,329.63,392,440,523.25,587.33,659.25,784];
+const sndBlock =c=>{const f=PENT[Math.min(Math.max(c-1,0),PENT.length-1)];
+  tone(f,f*.75,.1,'square',.14);noise(.05,.06,3200);};
 const sndStar  =()=>{tone(740,740,.12,'sine',.2);tone(1108,1108,.16,'sine',.16,.07);};
 const sndRune  =()=>{tone(587,587,.1,'sine',.16);tone(880,880,.1,'sine',.16,.08);tone(1318,1318,.18,'sine',.16,.16);};
-const sndHit   =()=>{tone(130,42,.35,'triangle',.4);noise(.25,.3,700);};
+const sndHit   =()=>{tone(130,42,.35,'triangle',.4);noise(.25,.3,700);
+  if(coarse&&navigator.vibrate)navigator.vibrate(90);};
 const sndShat  =()=>{noise(.14,.2,5200);tone(1700,850,.1,'triangle',.1);};
-const sndPulse =()=>{tone(180,780,.3,'sawtooth',.18);noise(.2,.14,2400);};
+const sndPulse =()=>{tone(180,780,.3,'sawtooth',.18);noise(.2,.14,2400);
+  if(coarse&&navigator.vibrate)navigator.vibrate(30);};
 const sndDeny  =()=>tone(120,88,.1,'square',.12);
 const sndOver  =()=>{tone(320,68,.9,'sawtooth',.22);tone(160,48,1.1,'triangle',.2,.1);noise(.5,.2,500);};
 const sndUI    =()=>tone(520,760,.08,'sine',.14);
 const sndPerf  =()=>{tone(1568,1568,.09,'sine',.13);tone(2093,2093,.13,'sine',.11,.06);};
 const sndSplit =()=>{tone(210,90,.14,'square',.2);noise(.1,.14,1600);};
 const sndBossHit=()=>{tone(150,70,.14,'square',.28);noise(.1,.18,900);};
-const sndBossSpawn=()=>{tone(55,38,1.3,'sawtooth',.26);noise(1.3,.14,260);riser(1.6);};
-const sndBossDie=()=>{tone(420,55,.7,'sawtooth',.28);noise(.6,.26,700);downer();
+const sndBossSpawn=()=>{tone(55,38,1.3,'sawtooth',.26);noise(1.3,.14,260);riser(1.6);mCrash(.1);};
+const sndBossDie=()=>{tone(420,55,.7,'sawtooth',.28);noise(.6,.26,700);downer();mCrash(.12);
   tone(660,660,.12,'sine',.16,.25);tone(880,880,.12,'sine',.16,.35);tone(1320,1320,.2,'sine',.16,.45);};
 const sndComet =()=>{tone(880,1760,.25,'sine',.18);noise(.2,.1,6000);};
 const sndFever =()=>{tone(523,523,.09,'square',.12);tone(659,659,.09,'square',.12,.07);
-  tone(784,784,.09,'square',.12,.14);tone(1047,1047,.16,'square',.14,.21);};
+  tone(784,784,.09,'square',.12,.14);tone(1047,1047,.16,'square',.14,.21);mCrash(.09);};
 const sndCrystal=()=>{tone(1046,1568,.3,'sine',.18);tone(2093,2093,.22,'sine',.1,.1);noise(.3,.06,8000);};
 const sndEvolve=()=>{tone(392,392,.15,'triangle',.2);tone(523,523,.15,'triangle',.2,.12);
-  tone(659,659,.15,'triangle',.2,.24);tone(784,784,.32,'triangle',.25,.36);noise(.4,.1,3000,.36);};
+  tone(659,659,.15,'triangle',.2,.24);tone(784,784,.32,'triangle',.25,.36);noise(.4,.1,3000,.36);mCrash(.1);};
 
 /* ---------- State ---------- */
 const PCOL={shard:'#ff3d6e',fast:'#ff9f40',wiggle:'#c05dff',star:'#ffd166',rune:'#5ee6ff',split:'#ff2450',crystal:'#9d7bff'};
@@ -469,9 +521,9 @@ const S={mode:'menu',time:0,score:0,lives:3,combo:0,maxCombo:0,mult:1,energy:40,
   cometT:20,crystalT:30,coreLevel:0,
   shake:0,freeze:0,redFlash:0,flashA:0,flashC:'#ffffff',coreDead:false,
   shield:{a:-Math.PI/2,span:1.9,vel:0},projs:[],parts:[],texts:[],pulses:[]};
-let boss=null,comet=null,meteors=[],beatT=0;
+let boss=null,comet=null,meteors=[],beatT=0,dial=null,touchInfo=null;
 let clk=0,aimAngle=-Math.PI/2,autoAim=-Math.PI/2,ambientT=1,
-    shieldFlash=0,corePulse=0,touchInfo=null,lastLives=-1,lastMax=-1,lastBoonStr='';
+    shieldFlash=0,corePulse=0,lastLives=-1,lastMax=-1,lastBoonStr='',lastCharge=-1;
 
 const maxLives=()=>Math.min(5,4+S.coreLevel);
 function multEff(){return S.mult*(S.doubleT>0?2:1)*(S.fever?2:1);}
@@ -744,9 +796,8 @@ function update(dt){
   S.wideT=Math.max(0,S.wideT-dt);
   S.doubleT=Math.max(0,S.doubleT-dt);
   S.slowT=Math.max(0,S.slowT-dt);
-  const dtE=dt*(S.slowT>0?.45:1); // Bullet-Time für Gegner
+  const dtE=dt*(S.slowT>0?.45:1);
 
-  // Ambiente Partikel
   if(!S.coreDead&&Math.random()<dt*7)
     S.parts.push({x:CX+rand(-coreR,coreR)*.8,y:CY+rand(-coreR,coreR)*.8,
       vx:rand(-8,8),vy:-rand(12,34),life:rand(.8,1.6),max:1.6,color:'#ffc857',size:rand(1,2.2)});
@@ -756,7 +807,6 @@ function update(dt){
       vx:-Math.cos(a)*rand(6,22),vy:-Math.sin(a)*rand(6,22),
       life:.3,max:.3,color:'#9ef0ff',size:1.3});
   }
-  // Hintergrund-Sternschnuppen
   if(Math.random()<dt*.12)meteors.push({x:rand(W*.2,W),y:rand(-20,H*.35),
     vx:rand(-280,-150),vy:rand(120,210),life:rand(.6,1.1),max:1.1});
   for(let i=meteors.length-1;i>=0;i--){const m=meteors[i];
@@ -776,7 +826,7 @@ function update(dt){
     if(w!==S.wave){
       S.wave=w;
       if(w%10===0&&S.coreLevel<3){S.coreLevel++;evolveCore();}
-      else announce('WELLE '+w,null,'cy');
+      else{announce('WELLE '+w,null,'cy');mCrash(.06);}
     }
     if(!boss&&S.wave%5===0&&S.wave!==S.lastBossWave){S.lastBossWave=S.wave;spawnBoss();}
     if(S.time>=S.nextStorm&&S.stormT<=0){
@@ -804,7 +854,6 @@ function update(dt){
     if(S.crystalT<=0&&S.time>25){spawnProj('crystal');S.crystalT=rand(30,45);
       floatText(CX,CY-coreR-22,'ZEITKRISTALL NAHT','#cdb6ff',15);}
     S.energy=Math.min(100,S.energy+2*dt);
-    // Musik-Intensität
     let inten=0;
     if(S.stormT>0||boss)inten=1;
     if(diff()>9||(S.fever&&(S.stormT>0||boss)))inten=2;
@@ -812,7 +861,6 @@ function update(dt){
     music.intensity=inten;
   }else if(S.mode!=='menu')music.intensity=0;
 
-  // Impulswellen
   for(let i=S.pulses.length-1;i>=0;i--){
     const u=S.pulses[i];u.r+=u.sp*dt;
     if(S.mode==='play'){
@@ -834,7 +882,6 @@ function update(dt){
     if(u.r>u.max)S.pulses.splice(i,1);
   }
 
-  // Projektile (mit Bullet-Time)
   for(const p of S.projs){
     if(p.dead)continue;
     const prev=p.d;
@@ -861,7 +908,6 @@ function update(dt){
   stepComet(dt);
   stepBoss(dt,dtE);
 
-  // Glutfieber
   const wasFever=S.fever;S.fever=S.combo>=20;
   if(S.fever&&!wasFever&&S.mode==='play'){
     announce('GLUTFIEBER!','Doppelte Punkte – Kombo halten');
@@ -876,6 +922,7 @@ function update(dt){
       if(p.chunk)p.rot+=p.vr*dt;}
     if(p.life<=0)S.parts.splice(i,1);
   }
+  if(S.parts.length>330)S.parts.splice(0,S.parts.length-330); // Partikel-Cap
   for(let i=S.texts.length-1;i>=0;i--){const t=S.texts[i];
     t.life-=dt;t.y-=dt*34;if(t.life<=0)S.texts.splice(i,1);
   }
@@ -894,6 +941,10 @@ function updateHUD(){
   else{elWave.textContent='WELLE '+S.wave;elWave.className='';}
   elFill.style.width=S.energy+'%';
   elEnergy.classList.toggle('ready',S.energy>=60);
+  const ch=Math.round(S.energy);
+  if(ch!==lastCharge){lastCharge=ch;
+    elPulse.style.backgroundImage=`conic-gradient(rgba(94,230,255,.55) ${ch}%, rgba(255,255,255,.08) 0)`;}
+  elPulse.classList.toggle('ready',S.energy>=60);
   const ml=maxLives();
   if(lastLives!==S.lives||lastMax!==ml){lastLives=S.lives;lastMax=ml;
     let h='';for(let i=0;i<ml;i++)h+=`<span class="pip${i<S.lives?'':' off'}"></span>`;
@@ -914,14 +965,12 @@ function draw(){
     ctx.translate(Math.sin(clk*n.fx*TAU)*10,Math.cos(clk*n.fy*TAU)*10);
     ctx.fillStyle=n.g;ctx.fillRect(0,0,W,H);ctx.restore();
   }
-  // Planet am Horizont
   const px=W*.14,py=H*1.08,pr=Math.min(W,H)*.55;
   const pg=ctx.createRadialGradient(px-pr*.3,py-pr*.5,pr*.2,px,py,pr);
   pg.addColorStop(0,'#151b3a');pg.addColorStop(.7,'#0a0d1f');pg.addColorStop(1,'#070914');
   ctx.fillStyle=pg;ctx.beginPath();ctx.arc(px,py,pr,0,TAU);ctx.fill();
   ctx.strokeStyle='rgba(120,180,255,.1)';ctx.lineWidth=3;
   ctx.beginPath();ctx.arc(px,py,pr-2,Math.PI*1.05,Math.PI*1.85);ctx.stroke();
-  // Weltraumstaub
   for(const d of dust){
     const x=((d.x+clk*d.vx)%(W+160)+(W+160))%(W+160)-80;
     const y=((d.y+clk*d.vy)%(H+160)+(H+160))%(H+160)-80;
@@ -939,11 +988,17 @@ function draw(){
     ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(m.x-m.vx*.12,m.y-m.vy*.12);ctx.stroke();
   }
   ctx.save();
-  if(S.shake>0)ctx.translate((Math.random()-.5)*S.shake,(Math.random()-.5)*S.shake);
+  // Kamera-Parallax (leicht entgegen dem Schild) + Screenshake
+  const camX=Math.cos(S.shield.a)*-3.5,camY=Math.sin(S.shield.a)*-3.5;
+  let sx=0,sy=0;
+  if(S.shake>0){sx=(Math.random()-.5)*S.shake;sy=(Math.random()-.5)*S.shake;}
+  ctx.translate(camX+sx,camY+sy);
 
+  const kick=beatKick();
   ctx.fillStyle='rgba(94,230,255,.03)';
   ctx.beginPath();ctx.arc(CX,CY,R,0,TAU);ctx.fill();
-  ctx.strokeStyle='rgba(94,230,255,.14)';ctx.setLineDash([2,10]);ctx.lineWidth=1;
+  ctx.strokeStyle=`rgba(94,230,255,${(.14+kick*.18).toFixed(3)})`;
+  ctx.setLineDash([2,10]);ctx.lineWidth=1+kick*1.4;
   ctx.beginPath();ctx.arc(CX,CY,R,0,TAU);ctx.stroke();ctx.setLineDash([]);
 
   ctx.globalCompositeOperation='lighter';
@@ -958,8 +1013,8 @@ function draw(){
   for(const p of S.projs)drawProj(p);
   drawComet();
   if(boss)drawBoss();
-  drawShield();
-  if(!S.coreDead)drawCore();
+  drawShield(kick);
+  if(!S.coreDead)drawCore(kick);
 
   ctx.globalCompositeOperation='lighter';
   for(const p of S.parts){
@@ -980,7 +1035,6 @@ function draw(){
   ctx.globalAlpha=1;
   ctx.globalCompositeOperation='source-over';
 
-  // Schwebende Texte (mit Pop-In)
   ctx.textAlign='center';ctx.textBaseline='middle';
   for(const t of S.texts){
     const a=clamp(t.life/t.max,0,1),age=t.max-t.life;
@@ -997,7 +1051,7 @@ function draw(){
   ctx.restore();
 
   ctx.fillStyle=vgGrad;ctx.fillRect(0,0,W,H);
-  if(S.slowT>0){ // Zeitlupe-Look
+  if(S.slowT>0){
     const g=ctx.createRadialGradient(CX,CY,minDim*.3,CX,CY,Math.hypot(W,H)/2);
     g.addColorStop(0,'rgba(157,123,255,0)');
     g.addColorStop(1,`rgba(157,123,255,${(.09+.03*Math.sin(clk*6)).toFixed(3)})`);
@@ -1108,9 +1162,8 @@ function drawBoss(){
   ctx.lineCap='butt';
 }
 
-function drawShield(){
+function drawShield(kick){
   const a=S.shield.a,sp=S.shield.span,sw=clamp(SZ(),1,1.15);
-  // Bewegungs-Ghost
   const v=Math.abs(S.shield.vel);
   if(v>6){
     const ga=clamp(v/70,0,.28),a2=S.shield.a-Math.sign(S.shield.vel)*.16;
@@ -1124,14 +1177,21 @@ function drawShield(){
   ctx.beginPath();ctx.arc(CX,CY,R,a-sp/2,a+sp/2);ctx.stroke();
   ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=3*sw;
   ctx.beginPath();ctx.arc(CX,CY,R,a-sp/2,a+sp/2);ctx.stroke();
-  const kick=music.on?Math.pow(1-((beatT%(60/music.tempo))/(60/music.tempo)),3):0;
+  // Energiemarken
+  ctx.strokeStyle='rgba(255,255,255,.3)';ctx.lineWidth=1.5;
+  for(let ta=a-sp/2+.12;ta<a+sp/2-.08;ta+=.21){
+    ctx.beginPath();
+    ctx.moveTo(CX+Math.cos(ta)*(R-7*sw),CY+Math.sin(ta)*(R-7*sw));
+    ctx.lineTo(CX+Math.cos(ta)*(R+7*sw),CY+Math.sin(ta)*(R+7*sw));
+    ctx.stroke();
+  }
   for(const e of[a-sp/2,a+sp/2]){
     ctx.globalCompositeOperation='lighter';
     const s=glowSprite('#5ee6ff');
     ctx.drawImage(s,CX+Math.cos(e)*R-12,CY+Math.sin(e)*R-12,24,24);
     ctx.globalCompositeOperation='source-over';
     ctx.fillStyle='#e6fcff';
-    ctx.beginPath();ctx.arc(CX+Math.cos(e)*R,CY+Math.sin(e)*R,5+kick*2.2,0,TAU);ctx.fill();
+    ctx.beginPath();ctx.arc(CX+Math.cos(e)*R,CY+Math.sin(e)*R,5+kick*2.4,0,TAU);ctx.fill();
   }
   if(shieldFlash>0){
     ctx.strokeStyle=`rgba(255,255,255,${(shieldFlash*.8).toFixed(3)})`;ctx.lineWidth=11*sw;
@@ -1140,10 +1200,8 @@ function drawShield(){
   ctx.lineCap='butt';
 }
 
-function drawCore(){
+function drawCore(kick){
   const danger=S.mode==='play'&&S.lives===1&&!S.coreDead;
-  const beatDur=60/music.tempo;
-  const kick=music.on?Math.pow(1-((beatT%beatDur)/beatDur),3):0;
   const pl=1+Math.sin(clk*(danger?6:2.8))*.05+corePulse*.4+kick*.06+(S.fever?.08*Math.sin(clk*10):0);
   const cols=[
     {c1:'#fff6dd',c2:'#ffb64a',glow:'255,200,87'},
@@ -1181,7 +1239,7 @@ function drawCore(){
   ctx.strokeStyle=`rgba(${cols.glow},.35)`;ctx.setLineDash([4,9]);
   ctx.beginPath();ctx.arc(0,0,coreR+16,0,TAU);ctx.stroke();
   ctx.setLineDash([]);ctx.restore();
-  if(S.slowT>0){ // Zeitlupe-Ring
+  if(S.slowT>0){
     ctx.save();ctx.translate(CX,CY);ctx.rotate(-clk*1.5);
     ctx.strokeStyle='rgba(157,123,255,.55)';ctx.setLineDash([6,7]);ctx.lineWidth=2;
     ctx.beginPath();ctx.arc(0,0,coreR+28,0,TAU);ctx.stroke();
@@ -1199,13 +1257,14 @@ function start(){
     shake:0,redFlash:0,flashA:0,coreDead:false,
     projs:[],parts:[],texts:[],pulses:[]});
   boss=null;comet=null;meteors=[];music.intensity=0;
+  dial=null;touchInfo=null;lastCharge=-1;
   S.shield.a=aimAngle;S.shield.vel=0;
   lastLives=-1;lastMax=-1;lastBoonStr='';elBoons.innerHTML='';
   $('menu').classList.add('hidden');$('over').classList.add('hidden');$('pauseOv').classList.add('hidden');
   elHud.classList.add('on');
   if(document.activeElement)document.activeElement.blur();
   if(musicFilter&&actx)musicFilter.frequency.setValueAtTime(19000,actx.currentTime);
-  announce('WELLE 1','Beschütze den Glutkern');
+  announce('WELLE 1',coarse?'Drehen wie ein Lenkrad · 2. Finger = Impuls':'Beschütze den Glutkern');
   startMusic();sndUI();
 }
 function showOver(){
@@ -1234,22 +1293,47 @@ function toggleMute(){
   if(!muted)sndUI();
 }
 
-/* ---------- Eingabe ---------- */
-window.addEventListener('pointermove',e=>{aimAngle=Math.atan2(e.clientY-CY,e.clientX-CX);});
+/* ---------- Eingabe ----------
+   Desktop: Maus zielt absolut.
+   Mobile:  "Lenkrad" – Finger aufsetzen, Drehbewegung steuert den Schild.
+            Zweiter Finger (oder IMPULS-Button) = Impuls. Kurzer Tip = Impuls. */
 window.addEventListener('pointerdown',e=>{
+  if(e.target&&e.target.closest&&(e.target.closest('#pulseBtn')||e.target.closest('button')))return;
   initAudio();
   if(S.mode!=='play')return;
-  if(e.pointerType==='touch'){touchInfo={t:performance.now(),x:e.clientX,y:e.clientY};
-    aimAngle=Math.atan2(e.clientY-CY,e.clientX-CX);}
-  else firePulse();
+  if(e.pointerType==='touch'){
+    if(dial){firePulse();return;} // zweiter Finger feuert sofort
+    const dx=e.clientX-CX,dy=e.clientY-CY,dist=Math.hypot(dx,dy);
+    const pa=dist>18?Math.atan2(dy,dx):S.shield.a;
+    dial={pid:e.pointerId,pa,sa:S.shield.a};
+    touchInfo={pid:e.pointerId,t:performance.now(),x:e.clientX,y:e.clientY};
+  }else firePulse();
 });
-window.addEventListener('pointerup',e=>{
-  if(e.pointerType==='touch'&&touchInfo){
-    const dt=performance.now()-touchInfo.t,
-          mv=Math.hypot(e.clientX-touchInfo.x,e.clientY-touchInfo.y);
-    if(dt<220&&mv<18)firePulse();
-    touchInfo=null;
+window.addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch'){
+    if(dial&&e.pointerId===dial.pid){
+      const dx=e.clientX-CX,dy=e.clientY-CY;
+      if(Math.hypot(dx,dy)>18){
+        const pa=Math.atan2(dy,dx);
+        aimAngle=dial.sa+angDiff(pa,dial.pa);
+      }
+    }
+    return;
   }
+  aimAngle=Math.atan2(e.clientY-CY,e.clientX-CX);
+});
+function endTouch(e){
+  if(touchInfo&&e.pointerId===touchInfo.pid){
+    const dt=performance.now()-touchInfo.t;
+    const mv=Math.hypot(e.clientX-touchInfo.x,e.clientY-touchInfo.y);
+    if(dt<230&&mv<16)firePulse(); // kurzer Tip
+    touchInfo=null;dial=null;
+  }
+}
+window.addEventListener('pointerup',endTouch);
+window.addEventListener('pointercancel',endTouch);
+elPulse.addEventListener('pointerdown',e=>{
+  e.preventDefault();e.stopPropagation();initAudio();firePulse();
 });
 window.addEventListener('keydown',e=>{
   if(e.repeat)return;
